@@ -3,45 +3,101 @@ const form = document.getElementById("weather-form");
 const cityInput = document.getElementById("city-input");
 const message = document.getElementById("message");
 const weatherResult = document.getElementById("weather-result");
+const suggestions = document.getElementById("city-suggestions");
+
+let selectedCity = null;
+let debounceTimer;
+
+cityInput.addEventListener("input", function () {
+    const query = cityInput.value.trim();
+
+    selectedCity = null;
+    suggestions.replaceChildren();
+    clearTimeout(debounceTimer);
+
+    if (query.length < 2) {
+        return;
+    }
+
+    debounceTimer = setTimeout(async function () {
+        try {
+            const url =
+                `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}&count=7&language=en&format=json`;
+
+            const response = await fetch(url);
+            if (!response.ok) return;
+
+            const data = await response.json();
+
+            if (cityInput.value.trim() !== query) return;
+
+            if (!data.results) return;
+
+            data.results.forEach(function (city) {
+                const option = document.createElement("button");
+                option.type = "button";
+                option.className = "city-option";
+
+                const details = [
+                    city.name,
+                    city.admin1,
+                    city.country
+                ].filter(Boolean);
+
+                option.textContent = [...new Set(details)].join(", ");
+
+                option.addEventListener("click", function () {
+                    selectedCity = city;
+                    cityInput.value = city.name;
+                    suggestions.replaceChildren();
+                });
+
+                suggestions.appendChild(option);
+            });
+        } catch (error) {
+            console.error("City suggestions failed:", error);
+        }
+    }, 300);
+});
 
 form.addEventListener("submit", async function (event) {
     event.preventDefault();
 
-    const city = cityInput.value.trim();
+    const query = cityInput.value.trim();
 
-    if (city === "") {
+    if (!query) {
         message.textContent = "Please enter a city name.";
-        weatherResult.innerHTML = "";
         return;
     }
 
+    suggestions.replaceChildren();
     message.textContent = "Loading weather...";
-    weatherResult.innerHTML = "";
+    weatherResult.replaceChildren();
 
     try {
-        // Step-1: Find the city's coordinates
-        const geoUrl =
-            `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1&language=en&format=json`;
+        let location = selectedCity;
 
-        const geoResponse = await fetch(geoUrl);
+        if (!location) {
+            const geoUrl =
+                `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}&count=1&language=en&format=json`;
 
-        if (!geoResponse.ok) {
-            throw new Error("Unable to search for the city.");
+            const geoResponse = await fetch(geoUrl);
+
+            if (!geoResponse.ok) {
+                throw new Error("Unable to search for the city.");
+            }
+
+            const geoData = await geoResponse.json();
+
+            if (!geoData.results || geoData.results.length === 0) {
+                throw new Error("City not found. Try another city.");
+            }
+
+            location = geoData.results[0];
         }
 
-        const geoData = await geoResponse.json();
-
-        if (!geoData.results || geoData.results.length === 0) {
-            throw new Error("City not found. Please try another city.");
-        }
-
-        const location = geoData.results[0];
-        const latitude = location.latitude;
-        const longitude = location.longitude;
-
-        // Step-2: Get the weather using coordinates
         const weatherUrl =
-            `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,weather_code,wind_speed_10m&timezone=auto`;
+            `https://api.open-meteo.com/v1/forecast?latitude=${location.latitude}&longitude=${location.longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,weather_code,wind_speed_10m&timezone=auto`;
 
         const weatherResponse = await fetch(weatherUrl);
 
@@ -58,7 +114,7 @@ form.addEventListener("submit", async function (event) {
             2: "Partly cloudy",
             3: "Overcast",
             45: "Foggy",
-            48: "Depositing rime fog",
+            48: "Foggy",
             51: "Light drizzle",
             53: "Moderate drizzle",
             55: "Dense drizzle",
@@ -70,14 +126,13 @@ form.addEventListener("submit", async function (event) {
             75: "Heavy snow",
             80: "Rain showers",
             81: "Moderate rain showers",
-            82: "Violent rain showers",
+            82: "Heavy rain showers",
             95: "Thunderstorm"
         };
 
         const condition =
-            conditions[current.weather_code] || "Weather condition unavailable";
+            conditions[current.weather_code] || "Unknown condition";
 
-        // Display the weather
         message.textContent = "";
 
         weatherResult.innerHTML = `
@@ -91,10 +146,15 @@ form.addEventListener("submit", async function (event) {
             <p>Updated: ${current.time.replace("T", " ")}</p>
         `;
     } catch (error) {
-        message.textContent = error.message.includes("Failed to fetch")
-            ? "Network error. Please check your internet connection."
-            : error.message;
+        message.textContent =
+            error.message === "Failed to fetch"
+                ? "Network error. Check your internet connection."
+                : error.message;
+    }
+});
 
-        weatherResult.innerHTML = "";
+document.addEventListener("click", function (event) {
+    if (!event.target.closest(".city-search-wrapper")) {
+        suggestions.replaceChildren();
     }
 });

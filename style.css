@@ -1,12 +1,9 @@
-
-/* Reset default browser styles */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Page background */
 body {
     font-family: Arial, sans-serif;
     min-height: 100vh;
@@ -18,7 +15,6 @@ body {
     color: #243047;
 }
 
-/* Main weather app card */
 .weather-app {
     width: 100%;
     max-width: 450px;
@@ -29,18 +25,16 @@ body {
     box-shadow: 0 15px 40px rgba(31, 45, 61, 0.18);
 }
 
-/* Heading */
 h1 {
     font-size: 32px;
     margin-bottom: 10px;
 }
 
-.weather-app > p {
-    color: #68758a;
+.weather-app>p {
+    color: #576273;
     margin-bottom: 25px;
 }
 
-/* Search form */
 #weather-form {
     display: flex;
     gap: 10px;
@@ -51,18 +45,17 @@ h1 {
     min-width: 0;
     flex: 1;
     padding: 13px;
-    border: 1px solid #d5dce8;
+    border: 1px solid #cbd2de;
     border-radius: 12px;
     font-size: 15px;
     outline: none;
 }
 
 #city-input:focus {
-    border-color: #6478e8;
+    border-color: #6375df;
     box-shadow: 0 0 0 3px rgba(100, 120, 232, 0.15);
 }
 
-/* Search button */
 button {
     padding: 13px 18px;
     border: none;
@@ -79,14 +72,12 @@ button:hover {
     transform: translateY(-1px);
 }
 
-/* Messages */
 #message {
-    color: #b42318;
+    color: #a92117;
     font-size: 14px;
     overflow-wrap: anywhere;
 }
 
-/* Weather results */
 #weather-result {
     margin-top: 20px;
     overflow-wrap: anywhere;
@@ -105,11 +96,10 @@ button:hover {
 
 #weather-result p {
     margin: 10px 0;
-    color: #536176;
+    color: #4c596c;
     font-size: 15px;
 }
 
-/* Mobile-friendly layout */
 @media (max-width: 380px) {
     .weather-app {
         padding: 25px 16px;
@@ -126,4 +116,58 @@ button:hover {
     button {
         padding: 11px 13px;
     }
+}
+
+
+/* City autocomplete dropdown */
+.city-search-wrapper {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+}
+
+#city-input {
+    width: 100%;
+}
+
+.city-suggestions {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #d5dce8;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(31, 45, 61, 0.15);
+    max-height: 220px;
+    overflow-y: auto;
+    z-index: 10;
+    text-align: left;
+}
+
+.city-suggestions:empty {
+    display: none;
+}
+
+.city-option {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 0;
+    background: white;
+    color: #243047;
+    text-align: left;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.city-option:hover {
+    background: #eef1ff;
+    color: #5269df;
+    transform: none;
+}
+
+.city-option+.city-option {
+    border-top: 1px solid #edf0f5;
 }
