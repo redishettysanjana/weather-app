@@ -1,0 +1,129 @@
+
+/* Reset default browser styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Page background */
+body {
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background: linear-gradient(135deg, #74ebd5, #9face6);
+    color: #243047;
+}
+
+/* Main weather app card */
+.weather-app {
+    width: 100%;
+    max-width: 450px;
+    padding: 35px 25px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.92);
+    border-radius: 24px;
+    box-shadow: 0 15px 40px rgba(31, 45, 61, 0.18);
+}
+
+/* Heading */
+h1 {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.weather-app > p {
+    color: #68758a;
+    margin-bottom: 25px;
+}
+
+/* Search form */
+#weather-form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+#city-input {
+    min-width: 0;
+    flex: 1;
+    padding: 13px;
+    border: 1px solid #d5dce8;
+    border-radius: 12px;
+    font-size: 15px;
+    outline: none;
+}
+
+#city-input:focus {
+    border-color: #6478e8;
+    box-shadow: 0 0 0 3px rgba(100, 120, 232, 0.15);
+}
+
+/* Search button */
+button {
+    padding: 13px 18px;
+    border: none;
+    border-radius: 12px;
+    background: #6478e8;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+}
+
+button:hover {
+    background: #4d61d2;
+    transform: translateY(-1px);
+}
+
+/* Messages */
+#message {
+    color: #b42318;
+    font-size: 14px;
+    overflow-wrap: anywhere;
+}
+
+/* Weather results */
+#weather-result {
+    margin-top: 20px;
+    overflow-wrap: anywhere;
+}
+
+#weather-result h2 {
+    font-size: 22px;
+    margin-bottom: 12px;
+}
+
+#weather-result h3 {
+    font-size: 52px;
+    color: #5269df;
+    margin: 12px 0;
+}
+
+#weather-result p {
+    margin: 10px 0;
+    color: #536176;
+    font-size: 15px;
+}
+
+/* Mobile-friendly layout */
+@media (max-width: 380px) {
+    .weather-app {
+        padding: 25px 16px;
+    }
+
+    h1 {
+        font-size: 27px;
+    }
+
+    #city-input {
+        padding: 11px;
+    }
+
+    button {
+        padding: 11px 13px;
+    }
+}
