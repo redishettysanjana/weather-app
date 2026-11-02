@@ -168,9 +168,25 @@ form.addEventListener("submit", async function (event) {
 
         console.log("Weather API URL:", weatherUrl);
 
-        const weatherResponse = await fetch(weatherUrl);
+        let weatherResponse;
+
+        for (let attempt = 1; attempt <= 3; attempt++) {
+            weatherResponse = await fetch(weatherUrl);
+
+            if (weatherResponse.status !== 503 &&
+                weatherResponse.status !== 429) {
+                break;
+            }
+
+            if (attempt < 3) {
+                await new Promise(resolve =>
+                    setTimeout(resolve, attempt * 3000)
+                );
+            }
+        }
 
         if (!weatherResponse.ok) {
+            console.log("API status:", weatherResponse.status);
             const errorData = await weatherResponse.json();
             console.error("Weather API error:", errorData);
 
