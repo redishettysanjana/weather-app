@@ -235,3 +235,21 @@ button:hover {
     font-size: 12px;
     color: #5269df;
 }
+
+.unit-toggle {
+    background: #5269df;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    margin: 12px 0;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.unit-toggle:hover {
+    background: #354dc5;
+    transform: translateY(-2px);
+}

@@ -7,6 +7,7 @@ const suggestions = document.getElementById("city-suggestions");
 
 let selectedCity = null;
 let debounceTimer;
+let temperatureUnit = "celsius";
 
 // Weather condition descriptions
 const conditions = {
@@ -48,7 +49,7 @@ function getWeatherIcon(code) {
 
     if (
         [51, 53, 55, 56, 57, 61, 63, 65,
-         66, 67, 80, 81, 82].includes(code)
+            66, 67, 80, 81, 82].includes(code)
     ) {
         return "🌧️";
     }
@@ -163,12 +164,19 @@ form.addEventListener("submit", async function (event) {
             `https://api.open-meteo.com/v1/forecast?latitude=${location.latitude}&longitude=${location.longitude}` +
             `&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,weather_code,wind_speed_10m` +
             `&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max` +
-            `&forecast_days=5&timezone=auto`;
+            `&forecast_days=5&timezone=auto&temperature_unit=${temperatureUnit}`;
+
+        console.log("Weather API URL:", weatherUrl);
 
         const weatherResponse = await fetch(weatherUrl);
 
         if (!weatherResponse.ok) {
-            throw new Error("Unable to fetch weather data.");
+            const errorData = await weatherResponse.json();
+            console.error("Weather API error:", errorData);
+
+            throw new Error(
+                errorData.reason || "Unable to fetch weather data."
+            );
         }
 
         const weatherData = await weatherResponse.json();
@@ -272,6 +280,20 @@ form.addEventListener("submit", async function (event) {
             updated
         );
 
+        const unitToggle = document.createElement("button");
+
+        unitToggle.type = "button";
+        unitToggle.className = "unit-toggle";
+        unitToggle.textContent =
+            temperatureUnit === "celsius" ? "Switch to °F" : "Switch to °C";
+
+        unitToggle.addEventListener("click", function () {
+            temperatureUnit =
+                temperatureUnit === "celsius" ? "fahrenheit" : "celsius";
+
+            form.requestSubmit();
+        });
+
         const forecastHeading = document.createElement("h3");
         forecastHeading.className = "forecast-heading";
         forecastHeading.textContent = "5-Day Forecast";
@@ -282,18 +304,24 @@ form.addEventListener("submit", async function (event) {
 
         weatherResult.replaceChildren(
             cityHeading,
+            unitToggle,
             currentWeather,
             forecastHeading,
             forecastContainer
         );
 
     } catch (error) {
-        message.textContent =
-            error.message === "Failed to fetch"
-                ? "Network error. Check your internet connection."
-                : error.message;
-
         console.error("Weather search failed:", error);
+
+        if (error.message.includes("overloaded")) {
+            message.textContent =
+                "Weather service is busy. Please try again in a minute.";
+        } else if (error.message === "Failed to fetch") {
+            message.textContent =
+                "Network error. Check your internet connection.";
+        } else {
+            message.textContent = error.message;
+        }
     }
 });
 
