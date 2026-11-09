@@ -253,3 +253,57 @@ button:hover {
     background: #354dc5;
     transform: translateY(-2px);
 }
+
+
+/* DYNAMIC WEATHER BACKGROUNDS */
+
+body {
+    transition: background 1s ease;
+    background-size: 200% 200%;
+}
+
+/* SUNNY THEME */
+body.weather-sunny {
+    background: linear-gradient(
+        135deg,
+        #fceabb,
+        #f8b500,
+        #f6d365
+    );
+}
+
+body.weather-cloudy {
+    background: linear-gradient(
+        135deg,
+        #bdc3c7,
+        #8e9eab,
+        #d7e1ec
+    );
+}
+
+body.weather-rainy {
+    background: linear-gradient(
+        135deg,
+        #355c7d,
+        #6c8ebf,
+        #99aabb
+    );
+}
+
+body.weather-snowy {
+    background: linear-gradient(
+        135deg,
+        #e0eafc,
+        #cfdef3,
+        #a6c1ee
+    );
+}
+
+body.weather-stormy {
+    background: linear-gradient(
+        135deg,
+        #232526,
+        #414345,
+        #51456b
+    );
+}
