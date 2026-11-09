@@ -50,8 +50,3 @@ weather-app/
 - Display weather maps.
 - Add recently searched locations.
 - Improve worldwide location coverage.
-- GitHub: [@redishettysanjana](https://github.com/redishettysanjana)
-
----
-
-⭐ If you find this project useful, consider giving it a star!
