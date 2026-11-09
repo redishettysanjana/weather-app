@@ -7,7 +7,6 @@ A responsive weather application that allows users to explore weather conditions
 - **Worldwide Search:** Search for cities, countries, continents, and remote locations.
 - **Location Suggestions:** Get suggestions while typing.
 - **Country & Continent Browsing:** Explore countries by continent and cities within countries.
-- **Antarctica Support:** Search for Antarctic research stations, including McMurdo Station and the South Pole.
 - **Current Weather:** View temperature, weather conditions, humidity, wind speed, and precipitation.
 - **5-Day Forecast:** Check upcoming weather conditions.
 - **Temperature Conversion:** Switch between Celsius (°C) and Fahrenheit (°F).
@@ -33,26 +32,6 @@ A responsive weather application that allows users to explore weather conditions
 | REST Countries | Retrieve country information |
 | CountriesNow | Retrieve city lists by country |
 
-## 🚀 How to Run the Project
-
-1. Clone this repository:
-
-   ```bash
-   git clone https://github.com/redishettysanjana/weather-app.git
-   ```
-
-2. Open the project folder:
-
-   ```bash
-   cd weather-app
-   ```
-
-3. Open `index.html` in your browser.
-
-4. Search for a city, country, continent, or location to explore its weather.
-
-**Note:** An active internet connection is required to retrieve weather and location data from the APIs.
-
 ## 📁 Project Structure
 
 ```text
@@ -71,11 +50,6 @@ weather-app/
 - Display weather maps.
 - Add recently searched locations.
 - Improve worldwide location coverage.
-
-## 👩‍💻 Author
-
-**Sanjana Redishetty**
-
 - GitHub: [@redishettysanjana](https://github.com/redishettysanjana)
 
 ---
