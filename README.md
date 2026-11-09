@@ -1,6 +1,10 @@
 # Worldwide Weather App 🌦️
 
-A responsive weather application that allows users to explore weather conditions across the world. Search for cities, countries, continents, and even remote locations.
+A responsive weather application that allows users to explore weather conditions across the world. Search for cities, countries, continents, and remote locations.
+
+## 🌐 Live Demo
+
+**[Visit Worldwide Weather App](https://redishettysanjana.github.io/weather-app/)**
 
 ## ✨ Features
 
@@ -32,6 +36,7 @@ A responsive weather application that allows users to explore weather conditions
 | REST Countries | Retrieve country information |
 | CountriesNow | Retrieve city lists by country |
 
+
 ## 📁 Project Structure
 
 ```text
@@ -45,8 +50,7 @@ weather-app/
 
 ## 🎯 Future Improvements
 
-- Use the device's current location.
 - Add hourly weather forecasts.
-- Display weather maps.
+- Display interactive weather maps.
 - Add recently searched locations.
 - Improve worldwide location coverage.
