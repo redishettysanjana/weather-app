@@ -1,4 +1,4 @@
-# 🌦️ Worldwide Weather App
+# Worldwide Weather App 🌦️
 
 A responsive weather application that allows users to explore weather conditions across the world. Search for cities, countries, continents, and even remote locations such as Antarctic research stations.
 
